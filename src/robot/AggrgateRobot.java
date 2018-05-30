@@ -40,7 +40,7 @@ public class AggrgateRobot extends Robot{
     }
 
     public AggrgateRobot(int x, int y, int deltaX, int deltaY, int width, int height, String name) {
-        super(x, y, deltaX, deltaY, width, height);
+        super(x, y, deltaX, deltaY, width, height, name);
     }
 
     /**

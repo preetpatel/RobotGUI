@@ -35,6 +35,12 @@ public class DynamicWheeledRobot extends WheeledRobot{
         _RobotColor = Color.black;
 
     }
+    
+    public DynamicWheeledRobot(int x, int y, int deltaX, int deltaY, int width, int height, String name) {
+        super(x,y,deltaX,deltaY,width,height,name);
+        _RobotColor = Color.black;
+
+    }
 
     public DynamicWheeledRobot(int x, int y, int deltaX, int deltaY, int width, int height, Color robotColor) {
         super(x,y,deltaX,deltaY,width,height);
@@ -43,7 +49,7 @@ public class DynamicWheeledRobot extends WheeledRobot{
     }
 
     public DynamicWheeledRobot(int x, int y, int deltaX, int deltaY, int width, int height, String name,Color robotColor) {
-        super(x,y,deltaX,deltaY,width,height);
+        super(x,y,deltaX,deltaY,width,height,name);
         _RobotColor = robotColor;
 
     }

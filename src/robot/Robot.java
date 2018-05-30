@@ -84,6 +84,16 @@ public abstract class Robot {
 		_height = height;
 	}
 	
+	public Robot(int x, int y, int deltaX, int deltaY, int width, int height, String name) {
+		_x = x;
+		_y = y;
+		_deltaX = deltaX;
+		_deltaY = deltaY;
+		_width = width;
+		_height = height;
+		_Name = name;
+	}
+	
 	/**
 	 * Moves this Robot object within the specified bounds. On hitting a 
 	 * boundary the Robot instance bounces off and back into the two- 
@@ -242,5 +252,9 @@ public abstract class Robot {
 	 */
 	public void setName(String name) {
 		_Name = name;
+	}
+	
+	public String text() {
+		return _Name;
 	}
 }

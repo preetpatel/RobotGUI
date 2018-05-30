@@ -45,6 +45,11 @@ public class CarrierRobot extends Robot {
     public CarrierRobot(int x, int y, int deltaX, int deltaY, int width, int height) {
         super(x,y,deltaX,deltaY,width,height);
     }
+    
+    
+    public CarrierRobot(int x, int y, int deltaX, int deltaY, int width, int height, String name) {
+        super(x,y,deltaX,deltaY,width,height,name);
+    }
 
     /**
      * Moves a CarrierRobot object (including its children) within the bounds

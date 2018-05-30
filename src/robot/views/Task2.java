@@ -49,11 +49,11 @@ public class Task2 extends Task1 implements RobotModelListener {
 				tListener.treeNodesRemoved(treeModelEvent);
 			}
 			break;
-		case RobotMoved:
-			for(TreeModelListener tListener : _listeners) {
-				tListener.treeStructureChanged(treeModelEvent);
-			}
-			break;
+//		case RobotMoved:
+//			for(TreeModelListener tListener : _listeners) {
+//				tListener.treeStructureChanged(treeModelEvent);
+//			}
+//			break;
 		default:
 			break;
 		}
