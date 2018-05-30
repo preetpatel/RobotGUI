@@ -19,8 +19,11 @@ public class CustomRobotFormHandler implements FormHandler {
 
 	private RobotModel _model;
 	private CarrierRobot _nest;
-	private Form _imageForm;
 	private SwingWorker<BufferedImage, Void> _worker;
+	private File _imageFile;
+	private int _width;
+	private int _deltaX;
+	private int _deltaY;
 	private BufferedImage _bufferedImage;
 
 	public CustomRobotFormHandler (RobotModel model, CarrierRobot carrier){
@@ -31,7 +34,10 @@ public class CustomRobotFormHandler implements FormHandler {
 
 	@Override
 	public void processForm(Form form) {
-		_imageForm = form;
+		_imageFile = (File)form.getFieldValue(File.class, ImageFormElement.IMAGE);
+		_width = form.getFieldValue(Integer.class, RobotFormElement.WIDTH);
+		_deltaX = form.getFieldValue(Integer.class, RobotFormElement.DELTA_X);
+		_deltaY = form.getFieldValue(Integer.class, RobotFormElement.DELTA_Y);
 		_worker = new ImageShapeWorker();
 		_worker.execute(); 
 	}
@@ -41,16 +47,10 @@ public class CustomRobotFormHandler implements FormHandler {
 		@Override
 		protected BufferedImage doInBackground() throws Exception {
 
-			// Read field values from the form.
-			File imageFile = (File)_imageForm.getFieldValue(File.class, ImageFormElement.IMAGE);
-			int width = _imageForm.getFieldValue(Integer.class, RobotFormElement.WIDTH);
-			
-			
-
 			// Load the original image (ImageIO.read() is a blocking call).
 			BufferedImage fullImage = null;
 			try {
-				fullImage = ImageIO.read(imageFile);
+				fullImage = ImageIO.read(_imageFile);
 			} catch(IOException e) {
 				System.out.println("Error loading image.");
 			}
@@ -61,17 +61,17 @@ public class CustomRobotFormHandler implements FormHandler {
 			_bufferedImage = fullImage;
 					
 			// Scale the image if necessary.
-			if(fullImageWidth > width) {
-				double scaleFactor = (double)width / (double)fullImageWidth;
+			if(fullImageWidth > _width) {
+				double scaleFactor = (double)_width / (double)fullImageWidth;
 				int height = (int)((double)fullImageHeight * scaleFactor);
 						
-				_bufferedImage = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB); 
+				_bufferedImage = new BufferedImage(_width,height,BufferedImage.TYPE_INT_RGB); 
 				Graphics2D g = _bufferedImage.createGraphics();
 						
 				// Method drawImage() scales an already loaded image. The 
 				// ImageObserver argument is null because we don't need to monitor 
 				// the scaling operation.
-				g.drawImage(fullImage, 0, 0, width, height, null);
+				g.drawImage(fullImage, 0, 0, _width, height, null);
 				
 			}
 			return _bufferedImage;
@@ -80,11 +80,9 @@ public class CustomRobotFormHandler implements FormHandler {
 		@Override
 		protected void done(){
 			try {
-				int deltaX = _imageForm.getFieldValue(Integer.class, RobotFormElement.DELTA_X);
-				int deltaY = _imageForm.getFieldValue(Integer.class, RobotFormElement.DELTA_Y);
 				BufferedImage image = this.get();
 				// Create the new CustomRobot and add it to the model.
-				CustomRobot robot = new CustomRobot(deltaX, deltaY, image);
+				CustomRobot robot = new CustomRobot(_deltaX, _deltaY, image);
 				_model.add(robot, _nest);
 			} catch (InterruptedException | ExecutionException e) {
 				e.printStackTrace();
